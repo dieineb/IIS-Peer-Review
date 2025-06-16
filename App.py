@@ -30,8 +30,8 @@ grupos = [
     "6 - Mobile Health",
     "7 - Processamento de Imagens Médicas",
     "8 - Processamento de Sinais Biológicos",
-    "12 - Bioinformática",
-    "99 - Grupo de Teste"
+    "12 - Bioinformática"
+   # "99 - Grupo de Teste"
 ]
 
 st.subheader("🔍 Identificação")
