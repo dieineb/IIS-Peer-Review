@@ -55,7 +55,7 @@ def criterio(nome, descricao):
 
 originalidade = criterio("Originalidade", "O trabalho apresenta ideias novas, criativas, soluções originais ou perspectivas próprias sobre o tema?")
 qualidade = criterio("Qualidade Técnica", "O conteúdo está bem estruturado, consistente, fundamentado teoricamente e metodologicamente adequado?")
-relevancia = criterio("Relevância", "O trabalho está alinhado aos temas e objetivos da disciplina, contribuindo de forma pertinente para a compreensão do assunto?")
+relevancia = criterio("Relevância", "O trabalho está alinhado aos temas e objetivos da disciplina, contribuindo para a compreensão do assunto?")
 apresentacao = criterio("Apresentação", "O texto é claro, bem organizado, com boa escrita, uso adequado de elementos como gráficos, tabelas, imagens, e referências corretamente aplicadas?")
 analise = criterio("Análise Crítica", "O trabalho demonstra desenvolvimento consistente, reflexão, análise e aprofundamento sobre o tema, indo além da descrição superficial?")
 recomendacao = criterio("Recomendação Final", "Avaliação geral do trabalho.")
