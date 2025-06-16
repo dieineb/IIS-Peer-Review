@@ -1,17 +1,22 @@
 import streamlit as st
 import pandas as pd
+import gspread
+from google.oauth2.service_account import Credentials
 from datetime import datetime
-import os
 
-# Configuração da página
 st.set_page_config(page_title="IIS - Revisão por Pares", page_icon="📝")
-
 st.title("📝 IIS - Revisão por Pares - Metodologia Ativa")
 
-# Arquivo CSV para armazenamento
-CSV_FILE = "revisoes.csv"
+# Configurar credenciais
+SCOPE = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/drive']
+creds = Credentials.from_service_account_file('nome_do_arquivo.json', scopes=SCOPE)
+client = gspread.authorize(creds)
 
-# Lista dos grupos (incluindo grupo de teste)
+# Acessar a planilha e a aba
+SHEET_NAME = "IIS - Revisão por Pares - 2025"
+worksheet = client.open(SHEET_NAME).worksheet("Respostas")
+
+# Lista dos grupos
 grupos = [
     "3 - Robótica em Saúde",
     "4 - Games na Saúde",
@@ -23,15 +28,12 @@ grupos = [
     "99 - Grupo de Teste"
 ]
 
-# Formulário
 st.subheader("🔍 Identificação")
-
 grupo_origem = st.selectbox("Seu grupo (quem faz a avaliação):", grupos)
 grupo_destino = st.selectbox(
     "Grupo que você está avaliando:", 
     [g for g in grupos if g != grupo_origem]
 )
-
 titulo = st.text_input("Título do Trabalho Avaliado:")
 
 st.subheader("🏆 Avaliação")
@@ -53,35 +55,18 @@ analise = criterio("Análise Crítica", "Há reflexão, discussão e profundidad
 recomendacao = criterio("Recomendação Final", "Avaliação geral do trabalho.")
 
 st.subheader("💬 Comentários")
-
 comentario_autores = st.text_area("Comentários para os autores (visível aos avaliados):")
 comentario_professor = st.text_area("Comentários privados para o professor:")
 
 if st.button("✅ Enviar Avaliação"):
     data_hora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    dados = {
-        "Data/Hora": data_hora,
-        "Grupo Avaliador": grupo_origem,
-        "Grupo Avaliado": grupo_destino,
-        "Título do Trabalho": titulo,
-        "Originalidade": originalidade,
-        "Qualidade": qualidade,
-        "Relevância": relevancia,
-        "Apresentação": apresentacao,
-        "Análise Crítica": analise,
-        "Recomendação Final": recomendacao,
-        "Comentários para Autores": comentario_autores,
-        "Comentários para Professor": comentario_professor
-    }
+    dados = [
+        data_hora, grupo_origem, grupo_destino, titulo,
+        originalidade, qualidade, relevancia, apresentacao,
+        analise, recomendacao, comentario_autores, comentario_professor
+    ]
+    worksheet.append_row(dados)
+    st.success("✅ Avaliação enviada com sucesso!")
+    st.toast("📥 Dados registrados na planilha.")
+    #st.balloons()
 
-    # Verifica se o CSV já existe
-    if os.path.exists(CSV_FILE):
-        df_existente = pd.read_csv(CSV_FILE)
-        df = pd.concat([df_existente, pd.DataFrame([dados])], ignore_index=True)
-    else:
-        df = pd.DataFrame([dados])
-
-    df.to_csv(CSV_FILE, index=False)
-
-    st.success("✅ Avaliação enviada e salva no arquivo CSV!")
-    st.balloons()
