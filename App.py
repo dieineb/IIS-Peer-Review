@@ -4,15 +4,21 @@ import gspread
 from google.oauth2.service_account import Credentials
 from datetime import datetime
 
+# Configuração da página
 st.set_page_config(page_title="IIS - Revisão por Pares", page_icon="📝")
 st.title("📝 IIS - Revisão por Pares - Metodologia Ativa")
 
-# Configurar credenciais
-SCOPE = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/drive']
-creds = Credentials.from_service_account_file('nome_do_arquivo.json', scopes=SCOPE)
+# 🔐 Configuração das credenciais via Secrets do Streamlit
+SCOPE = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+
+# Ler as credenciais do arquivo de Secrets
+creds_dict = st.secrets["gcp_service_account"]
+creds = Credentials.from_service_account_info(creds_dict, scopes=SCOPE)
+
+# Autenticar no Google Sheets
 client = gspread.authorize(creds)
 
-# Acessar a planilha e a aba
+# Abrir a planilha e selecionar a aba
 SHEET_NAME = "IIS - Revisão por Pares - 2025"
 worksheet = client.open(SHEET_NAME).worksheet("Respostas")
 
