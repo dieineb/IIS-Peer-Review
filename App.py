@@ -34,7 +34,7 @@ grupos = [
    # "99 - Grupo de Teste"
 ]
 
-st.subheader("🔍 Identificação")
+st.subheader("👥 Identificação")
 grupo_origem = st.selectbox("Seu grupo (quem faz a avaliação):", grupos)
 grupo_destino = st.selectbox(
     "Grupo que você está avaliando:", 
@@ -42,7 +42,7 @@ grupo_destino = st.selectbox(
 )
 titulo = st.text_input("Título do Trabalho Avaliado:")
 
-st.subheader("🏆 Avaliação")
+st.subheader("✔️ Avaliação")
 
 def criterio(nome, descricao):
     st.markdown(f"**{nome}**: {descricao}")
@@ -53,11 +53,11 @@ def criterio(nome, descricao):
         horizontal=True
     )
 
-originalidade = criterio("Originalidade", "Ideias novas, criativas, soluções originais?")
-qualidade = criterio("Qualidade Técnica", "Conteúdo consistente, bem fundamentado?")
-relevancia = criterio("Relevância", "Alinhado com os temas da disciplina?")
-apresentacao = criterio("Apresentação", "Organização, uso de gráficos, clareza, referências?")
-analise = criterio("Análise Crítica", "Há reflexão, discussão e profundidade no tema?")
+originalidade = criterio("Originalidade", "O trabalho apresenta ideias novas, criativas, soluções originais ou perspectivas próprias sobre o tema?")
+qualidade = criterio("Qualidade Técnica", "O conteúdo está bem estruturado, consistente, fundamentado teoricamente e metodologicamente adequado?")
+relevancia = criterio("Relevância", "O trabalho está alinhado aos temas e objetivos da disciplina, contribuindo de forma pertinente para a compreensão do assunto?")
+apresentacao = criterio("Apresentação", "O texto é claro, bem organizado, com boa escrita, uso adequado de elementos como gráficos, tabelas, imagens, e referências corretamente aplicadas?")
+analise = criterio("Análise Crítica", "O trabalho demonstra desenvolvimento consistente, reflexão, análise e aprofundamento sobre o tema, indo além da descrição superficial?")
 recomendacao = criterio("Recomendação Final", "Avaliação geral do trabalho.")
 
 st.subheader("💬 Comentários")
