@@ -1,56 +1,58 @@
 import streamlit as st
 import pandas as pd
-import os
+import gspread
+from google.oauth2.service_account import Credentials
 
-# Configuração da página
 st.set_page_config(page_title="Admin - Revisões por Pares", page_icon="🗂️")
-
 st.title("🗂️ Admin - Visualização das Revisões por Pares")
 
-CSV_FILE = "revisoes.csv"
+# Configurar credenciais
+SCOPE = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/drive']
+creds = Credentials.from_service_account_file('nome_do_arquivo.json', scopes=SCOPE)
+client = gspread.authorize(creds)
 
-# Verifica se o arquivo existe
-if os.path.exists(CSV_FILE):
-    df = pd.read_csv(CSV_FILE)
+# Acessar a planilha e a aba
+SHEET_NAME = "IIS - Revisão por Pares - 2025"
+worksheet = client.open(SHEET_NAME).worksheet("Respostas")
 
-    st.subheader("📑 Dados das Revisões")
-    st.dataframe(df)
+# Ler os dados da planilha
+data = worksheet.get_all_records()
+df = pd.DataFrame(data)
 
-    # 🔍 Filtros
-    st.subheader("🔍 Filtros")
+st.subheader("📑 Dados das Revisões")
+st.dataframe(df)
 
-    grupos_avaliadores = df["Grupo Avaliador"].unique()
-    grupo_avaliador = st.selectbox("Filtrar por Grupo Avaliador:", ["Todos"] + sorted(grupos_avaliadores))
+# 🔍 Filtros
+st.subheader("🔍 Filtros")
 
-    grupos_avaliados = df["Grupo Avaliado"].unique()
-    grupo_avaliado = st.selectbox("Filtrar por Grupo Avaliado:", ["Todos"] + sorted(grupos_avaliados))
+grupos_avaliadores = df["Grupo Avaliador"].unique()
+grupo_avaliador = st.selectbox("Filtrar por Grupo Avaliador:", ["Todos"] + sorted(grupos_avaliadores))
 
-    df_filtrado = df.copy()
+grupos_avaliados = df["Grupo Avaliado"].unique()
+grupo_avaliado = st.selectbox("Filtrar por Grupo Avaliado:", ["Todos"] + sorted(grupos_avaliados))
 
-    if grupo_avaliador != "Todos":
-        df_filtrado = df_filtrado[df_filtrado["Grupo Avaliador"] == grupo_avaliador]
+df_filtrado = df.copy()
 
-    if grupo_avaliado != "Todos":
-        df_filtrado = df_filtrado[df_filtrado["Grupo Avaliado"] == grupo_avaliado]
+if grupo_avaliador != "Todos":
+    df_filtrado = df_filtrado[df_filtrado["Grupo Avaliador"] == grupo_avaliador]
 
-    st.subheader("📄 Dados Filtrados")
-    st.dataframe(df_filtrado)
+if grupo_avaliado != "Todos":
+    df_filtrado = df_filtrado[df_filtrado["Grupo Avaliado"] == grupo_avaliado]
 
-    # 📥 Download do CSV filtrado
-    csv = df_filtrado.to_csv(index=False).encode('utf-8')
+st.subheader("📄 Dados Filtrados")
+st.dataframe(df_filtrado)
 
-    st.download_button(
-        label="📥 Baixar dados filtrados como CSV",
-        data=csv,
-        file_name='revisoes_filtradas.csv',
-        mime='text/csv',
-    )
+# 📥 Download do CSV
+csv = df_filtrado.to_csv(index=False).encode('utf-8')
+st.download_button(
+    label="📥 Baixar dados como CSV",
+    data=csv,
+    file_name='revisoes_filtradas.csv',
+    mime='text/csv',
+)
 
-    # 📊 Resumo
-    st.subheader("📊 Resumo das Avaliações")
-    st.write(f"Total de avaliações: {df.shape[0]}")
-    st.write(f"Total de grupos avaliadores: {df['Grupo Avaliador'].nunique()}")
-    st.write(f"Total de grupos avaliados: {df['Grupo Avaliado'].nunique()}")
-
-else:
-    st.warning("⚠️ Nenhuma revisão encontrada. O arquivo 'revisoes.csv' ainda não foi criado.")
+# 📊 Resumo
+st.subheader("📊 Resumo das Avaliações")
+st.write(f"Total de avaliações: {df.shape[0]}")
+st.write(f"Total de grupos avaliadores: {df['Grupo Avaliador'].nunique()}")
+st.write(f"Total de grupos avaliados: {df['Grupo Avaliado'].nunique()}")
