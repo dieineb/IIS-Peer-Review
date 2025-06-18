@@ -7,7 +7,6 @@ from datetime import datetime
 # Configuração da página
 st.set_page_config(page_title="IIS - Revisão por Pares", page_icon="📝")
 st.title("📝 IIS - Revisão por Pares")
-st.title("Metodologia Ativa")
 
 # 🔐 Configuração das credenciais via Secrets do Streamlit
 SCOPE = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
