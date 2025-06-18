@@ -33,6 +33,7 @@ grupos = [
     "12 - Bioinformática"
    # "99 - Grupo de Teste"
 ]
+nome_avaliadores = st.text_input("Nome dos Avaliadores")
 
 st.subheader("👥 Identificação")
 grupo_origem = st.selectbox("Seu grupo (quem faz a avaliação):", grupos)
