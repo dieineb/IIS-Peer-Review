@@ -42,6 +42,7 @@ grupo_destino = st.selectbox(
     [g for g in grupos if g != grupo_origem]
 )
 titulo = st.text_input("Título do Trabalho Avaliado:")
+titulo = st.text_input("Nome do Avaliador:")
 
 st.subheader("✔️ Avaliação")
 
