@@ -68,7 +68,7 @@ comentario_professor = st.text_area("Comentários privados para o professor:")
 if st.button("✅ Enviar Avaliação"):
     data_hora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     dados = [
-        data_hora, grupo_origem, nome_avaliadores, grupo_destino, titulo,
+        data_hora, grupo_origem, nome_avaliador, grupo_destino, titulo,
         originalidade, qualidade, relevancia, apresentacao,
         analise, recomendacao, comentario_autores, comentario_professor
     ]
