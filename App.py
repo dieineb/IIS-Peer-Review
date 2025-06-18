@@ -33,16 +33,15 @@ grupos = [
     "12 - Bioinformática"
    # "99 - Grupo de Teste"
 ]
-nome_avaliadores = st.text_input("Nome dos Avaliadores")
 
 st.subheader("👥 Identificação")
+titulo = st.text_input("Nome do Avaliador:")
 grupo_origem = st.selectbox("Seu grupo (quem faz a avaliação):", grupos)
 grupo_destino = st.selectbox(
     "Grupo que você está avaliando:", 
     [g for g in grupos if g != grupo_origem]
 )
 titulo = st.text_input("Título do Trabalho Avaliado:")
-titulo = st.text_input("Nome do Avaliador:")
 
 st.subheader("✔️ Avaliação")
 
