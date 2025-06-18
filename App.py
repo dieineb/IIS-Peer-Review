@@ -67,16 +67,17 @@ comentario_professor = st.text_area("Comentários privados para o professor:")
 if st.button("✅ Enviar Avaliação"):
     data_hora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     dados = [
-        data_hora, grupo_origem, grupo_destino, titulo,
+        data_hora, grupo_origem, nome_avaliadores, grupo_destino, titulo,
         originalidade, qualidade, relevancia, apresentacao,
         analise, recomendacao, comentario_autores, comentario_professor
     ]
+    
     worksheet.append_row(dados)
     st.success("✅ Avaliação enviada com sucesso!")
     st.toast("📥 Dados registrados na planilha.")
      # Exibir comentários na tela
     st.info(f"""
-    ### 🔸 Comentários Enviados
+    ### Comentários Enviados:
     **🗣️ Para os autores:**  
     {comentario_autores if comentario_autores else 'Nenhum'}
 
