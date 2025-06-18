@@ -35,7 +35,7 @@ grupos = [
 ]
 
 st.subheader("👥 Identificação")
-titulo = st.text_input("Nome do Avaliador:")
+nome_avaliador = st.text_input("Seu nome (Avaliador)")
 grupo_origem = st.selectbox("Seu grupo (quem faz a avaliação):", grupos)
 grupo_destino = st.selectbox(
     "Grupo que você está avaliando:", 
