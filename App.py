@@ -79,12 +79,12 @@ if st.button("✅ Enviar Avaliação"):
      # Exibir comentários na tela
     st.info(f"""
     ### Comentários Enviados:
-    **🗣️ Para os autores:**  
+    **Para os autores:**  
     {comentario_autores if comentario_autores else 'Nenhum'}
 
     ---
 
-    **🔒 Para o professor:**  
+    **Para o professor:**  
     {comentario_professor if comentario_professor else 'Nenhum'}
     """)
    
